@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">APP</string>
+    <string name="btn">转换</string>
+    <string name="inp">输入温度</string>
+    <string name="re">结果：</string>
+    <string name="rest">清空</string>
+    <string name="s1">+1 分</string>
+    <string name="s2">+2 分</string>
+    <string name="s3">+3 分</string>
+    <string name="score">A队</string>
+    <string name="score2">B队</string>
+    <string name="text">wendu</string>
+    <string name="a">转换结果</string>
+    <string name="dollar">美元</string>
+    <string name="euro">欧元</string>
+    <string name="won">韩元</string>
+    <string name="conf">设置汇率</string>
+    <string name="change_rate">修改汇率</string>
+    <string name="save">保存</string>
+    <string name="input">输入金额</string>
+</resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".Exchange">
+
+    <EditText
+        android:id="@+id/money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="number|numberDecimal"
+        android:hint="@string/input"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/money_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:text="@string/a"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/dollar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="#79DD7F"
+        android:gravity="center"
+        android:onClick="Ex_dollar"
+        android:text="@string/dollar"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/euro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="#79DD7F"
+        android:gravity="center"
+        android:onClick="Ex_euro"
+        android:text="@string/euro"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/won"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="#79DD7F"
+        android:gravity="center"
+        android:onClick="Ex_won"
+        android:text="@string/won"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/conf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="#79DD7F"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:onClick="Change"
+        android:text="@string/conf"
+        android:textSize="20sp" />
+
+
+</LinearLayout>

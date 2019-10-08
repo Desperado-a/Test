@@ -1,6 +1,21 @@
 <resources>
-    <string name="app_name">Test</string>
-    <string name="inp">Input your text</string>
-    <string name="btn">button</string>
-    <string name="text">This is a text</string>
+    <string name="app_name">APP</string>
+    <string name="text">温度转换计</string>
+    <string name="score">Team A </string>
+    <string name="score2">Team B</string>
+    <string name="s1">+1 Point</string>
+    <string name="s2">+2 Points</string>
+    <string name="s3">+3 Points</string>
+    <string name="rest">REST</string>
+    <string name="btn">Transform</string>
+    <string name="dollar">DOLLAR</string>
+    <string name="euro">EURO</string>
+    <string name="won">WON</string>
+    <string name="conf">CONF</string>
+    <string name="inp">"Input "</string>
+    <string name="input">"Input  "</string>
+    <string name="re">Result:</string>
+    <string name="a">result</string>
+    <string name="save">SAVE</string>
+    <string name="change_rate">Change Rate</string>
 </resources>

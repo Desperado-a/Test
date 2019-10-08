@@ -4,47 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    tools:context=".Save">
+
+    <TextView
+        android:id="@+id/money_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:text="@string/change_rate"
+        android:textSize="25sp" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/dr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="number|numberDecimal"
-        android:text="@string/inp"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/er"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="number|numberDecimal"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/wr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="number|numberDecimal"
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:background="#79DD7F"
         android:gravity="center"
-        android:onClick="onClick"
-        android:text="@string/btn"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_gravity="right"
-        android:text="@string/re"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:layout_gravity="center"
-        android:textSize="25sp" />
+        android:onClick="save"
+        android:text="@string/save"
+        android:textSize="20sp" />
 
 </LinearLayout>
