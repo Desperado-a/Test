@@ -19,8 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,10 +28,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 
 public class Exchange extends AppCompatActivity implements Runnable{
@@ -59,8 +55,11 @@ public class Exchange extends AppCompatActivity implements Runnable{
         handler=new Handler(){
            public void handleMessage(Message msg) {
                if (msg.what == 1) {
-                   String str = (String) msg.obj;
-                   Log.i("Threat","get message:"+str);
+                   Float rate[] = (Float[]) msg.obj;
+                   Log.i("Threat","get message:"+rate);
+                   dollar_rate=rate[0];
+                   euro_rate=rate[1];
+                   won_rate=rate[2];
                }
                super.handleMessage(msg);
            }
@@ -192,28 +191,35 @@ public class Exchange extends AppCompatActivity implements Runnable{
     public void run() {
         String url = "http://www.usd-cny.com/bankofchina.htm";
         Document doc = null;
-        float dollar = 0,euro = 0,won = 0;
+        float d = 0,e1 = 0,w= 0;
+        float rate3[]= new float[3];
         try {
             doc = (Document) Jsoup.connect(url).get();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Elements tables = doc.getElementsByTagName("table");
+        Elements tables = doc.getElementsByTag("table");
         Element ts = tables.get(0);
-        Elements td = ts.getElementsByTagName("td");
+        Elements td = ts.getElementsByTag("td");
         for(int i= 0 ;i<td.size();i+=6){
             Element td1 = td.get(i);
             Element td2 = td.get(i+5);
             String name = td1.text();
             String rate = td2.text();
             switch(name) {
-                case "美元" : dollar=Float.parseFloat(rate);break;
-                case "欧元" : euro=Float.parseFloat(rate);break;
-                case "韩元" : won=Float.parseFloat(rate);break;
+                case "美元" : d=Float.parseFloat(rate);break;
+                case "欧元" : e1=Float.parseFloat(rate);break;
+                case "韩元" : w=Float.parseFloat(rate);break;
                 default : break;
             }
         }
+        rate3[0]=d;
+        rate3[1]=e1;
+        rate3[2]=w;
+        Message msg= handler.obtainMessage(1);
+        msg.obj=rate3;
+        handler.sendMessage(msg);
         //System.out.println(ts);
     }
 
