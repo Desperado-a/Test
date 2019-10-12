@@ -27,6 +27,9 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -37,6 +40,8 @@ public class Exchange extends AppCompatActivity implements Runnable{
     private float dollar_rate;
     private float euro_rate;
     private float won_rate;
+    private String update;
+    private String datestr;
     SharedPreferences data;
     static Handler handler;
     @SuppressLint("HandlerLeak")
@@ -49,26 +54,48 @@ public class Exchange extends AppCompatActivity implements Runnable{
         dollar_rate=data.getFloat("dollar_rate",0.1406f);
         euro_rate=data.getFloat("euro_rate",0.1278f);
         won_rate=data.getFloat("won_rate",172.378f);
+        update=data.getString("update","");
 
+        //获取当前时间
+        Date now=Calendar.getInstance().getTime();
+        SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
+        datestr = sd.format(now);
 
+        if(!datestr.equals(update)){
+            Thread t = new Thread(this);
+            t.start();
+            Log.i(TAG,"需要更新" );
+        }
+        else Log.i(TAG,"不需要更新" );
 
         handler=new Handler(){
            public void handleMessage(Message msg) {
                if (msg.what == 1) {
-                   Float rate[] = (Float[]) msg.obj;
+                   float rate[] = (float[]) msg.obj;
                    Log.i("Threat","get message:"+rate);
                    dollar_rate=rate[0];
                    euro_rate=rate[1];
                    won_rate=rate[2];
+                   Log.i(TAG,"zhu xian cheng" + dollar_rate);
+
+
+                   //保存汇率及更新日期
+                   SharedPreferences share = getSharedPreferences("rate", Activity.MODE_PRIVATE);
+                   SharedPreferences.Editor editor=  share.edit();
+                   editor.putFloat("dollar_rate",dollar_rate);
+                   editor.putFloat("euro_rate",euro_rate);
+                   editor.putFloat("won_rate",won_rate);
+                   editor.putString("update",datestr);
+                   editor.apply();
+
                }
                super.handleMessage(msg);
            }
        };
 
         //开启子线程
-        Thread t = new Thread(this);
-        t.start();
-
+        //Thread t = new Thread(this);
+        //t.start();
     }
 
     public void  Ex_dollar(View v){
@@ -102,6 +129,17 @@ public class Exchange extends AppCompatActivity implements Runnable{
     public void  Change(View v){
         openConfig();
     }
+    public void  GetFromInter(View v){
+        Thread t = new Thread(this);
+        t.start();
+        openConfig();
+    }
+
+    public void  openlist(View v){
+       // Intent to_rate = new Intent(this,Ratelist.class);  //简单布局
+        Intent to_rate = new Intent(this,MyList.class);  //自定义
+        startActivity(to_rate);
+    }
     public void  openConfig(){
         Intent to_conf = new Intent(this,Save.class);
 
@@ -128,8 +166,6 @@ public class Exchange extends AppCompatActivity implements Runnable{
         return super.onOptionsItemSelected(item);
     }
 
-
-
    @Override
    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode==1&&resultCode==2){
@@ -152,7 +188,7 @@ public class Exchange extends AppCompatActivity implements Runnable{
 
 
 
-    /*@Override
+   /* @Override
     public void run() {
        //获取网络数据
         URL url = null;
@@ -188,38 +224,43 @@ public class Exchange extends AppCompatActivity implements Runnable{
         return out.toString();
     }
 
+    @Override
     public void run() {
         String url = "http://www.usd-cny.com/bankofchina.htm";
         Document doc = null;
         float d = 0,e1 = 0,w= 0;
-        float rate3[]= new float[3];
+        float[] rate3 = new float[3];
         try {
-            doc = (Document) Jsoup.connect(url).get();
+            doc = Jsoup.connect(url).get();
+            Elements tables  = doc.getElementsByTag("table");
+            Element ts = tables.get(0);
+            Elements td = ts.getElementsByTag("td");
+
+             for(int i= 0 ;i<td.size();i+=6){
+                 Element td1 = td.get(i);
+                 Element td2 = td.get(i+5);
+                 String name = td1.text();
+                 String rate = td2.text();
+                switch(name) {
+                   case "美元" : d=100f/Float.parseFloat(rate);break;
+                   case "欧元" : e1=100f/Float.parseFloat(rate);break;
+                  case "韩元" : w=100f/Float.parseFloat(rate);break;
+                   default : break;
+                }
+             }
+             rate3[0]=d;
+             rate3[1]=e1;
+             rate3[2]=w;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Elements tables = doc.getElementsByTag("table");
-        Element ts = tables.get(0);
-        Elements td = ts.getElementsByTag("td");
-        for(int i= 0 ;i<td.size();i+=6){
-            Element td1 = td.get(i);
-            Element td2 = td.get(i+5);
-            String name = td1.text();
-            String rate = td2.text();
-            switch(name) {
-                case "美元" : d=Float.parseFloat(rate);break;
-                case "欧元" : e1=Float.parseFloat(rate);break;
-                case "韩元" : w=Float.parseFloat(rate);break;
-                default : break;
-            }
-        }
-        rate3[0]=d;
-        rate3[1]=e1;
-        rate3[2]=w;
+
         Message msg= handler.obtainMessage(1);
         msg.obj=rate3;
         handler.sendMessage(msg);
+        Log.i(TAG,"zi xian cheng" + dollar_rate);
+
         //System.out.println(ts);
     }
 

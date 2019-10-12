@@ -1,8 +1,10 @@
 package com.example.test;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +14,26 @@ public class TwoTeam extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two_team);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String scorea=((TextView)findViewById(R.id.score)).getText().toString();
+        String scoreb=((TextView)findViewById(R.id.score2)).getText().toString();
+
+        outState.putString("teama",scorea);
+        outState.putString("teamb",scoreb);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        String scorea=savedInstanceState.getString("teama");
+        String scoreb=savedInstanceState.getString("teamb");
+
+        ((TextView)findViewById(R.id.score)).setText(scorea);
+        ((TextView)findViewById(R.id.score2)).setText(scoreb);
     }
 
     public void  btn1(View v){

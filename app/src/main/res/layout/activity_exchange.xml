@@ -64,12 +64,36 @@
         android:id="@+id/conf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:background="#79DD7F"
         android:gravity="center"
         android:layout_gravity="center"
         android:onClick="Change"
         android:text="@string/conf"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/inter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#79DD7F"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:onClick="GetFromInter"
+        android:text="@string/inter"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/list_s"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#79DD7F"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:onClick="openlist"
+        android:text="@string/rate_all"
         android:textSize="20sp" />
 
 

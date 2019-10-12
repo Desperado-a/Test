@@ -18,4 +18,6 @@
     <string name="a">result</string>
     <string name="save">SAVE</string>
     <string name="change_rate">Change Rate</string>
+    <string name="inter">Get Rate Form Internet</string>
+    <string name="rate_all">Get all Rate Form Internet</string>
 </resources>
