@@ -19,6 +19,6 @@
     <string name="change_rate">修改汇率</string>
     <string name="save">保存</string>
     <string name="input">输入金额</string>
-    <string name="inter">获取网络汇率</string>
-    <string name="rate_all">查询所有汇率</string>
+    <string name="inter">网络汇率</string>
+    <string name="rate_all">所有汇率</string>
 </resources>

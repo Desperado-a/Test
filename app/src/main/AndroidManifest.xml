@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MyList"></activity>
+        <activity android:name=".EachRate"></activity>
+        <activity android:name=".MyList" />
         <activity android:name=".Ratelist" />
         <activity android:name=".Exchange">
             <intent-filter>
@@ -22,8 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Save" />
-        <activity android:name=".TwoTeam">
-        </activity>
+        <activity android:name=".TwoTeam" />
         <activity android:name=".Scorecounter" />
         <activity android:name=".MainActivity" />
     </application>
