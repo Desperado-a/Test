@@ -1,8 +1,10 @@
 package com.example.test;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,11 +32,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class MyList extends AppCompatActivity implements Runnable, AdapterView.OnItemClickListener ,AdapterView.OnItemLongClickListener{
 
     static Handler handler;
     ListView list;
+    private String logdate="";
     private ArrayList<HashMap<String,String>> Listitems;
     private SimpleAdapter sadapter;
     @SuppressLint("HandlerLeak")
@@ -43,6 +47,11 @@ public class MyList extends AppCompatActivity implements Runnable, AdapterView.O
         super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_my_list);
        list = findViewById(R.id.mylist);
+
+        //获取上次更新时间
+        SharedPreferences sp = getSharedPreferences("rate", Activity.MODE_PRIVATE);
+        logdate=sp.getString("update","");
+        Log.i("aaa","上次更新时间："+logdate);
 
         Thread t = new Thread(this);
         t.start();
@@ -81,41 +90,74 @@ public class MyList extends AppCompatActivity implements Runnable, AdapterView.O
     }
     @Override
     public void run() {
+        Log.i("aaa","子线程：");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Listitems=new ArrayList<HashMap<String,String>>();;
-        String url = "http://www.usd-cny.com/bankofchina.htm";
-        Document doc = null;
-        try {
-            doc = Jsoup.connect(url).get();
-            Elements tables  = doc.getElementsByTag("table");
-            Element ts = tables.get(0);
-            Elements td = ts.getElementsByTag("td");
+        Listitems=new ArrayList<HashMap<String,String>>();
 
-            for(int i= 0 ;i<td.size();i+=6){
-                Element td1 = td.get(i);
-                Element td2 = td.get(i+5);
-                String name = td1.text();
-                String rate = td2.text();
+        //获取当前时间
+        Date now= Calendar.getInstance().getTime();
+        SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
+        String datestr = sd.format(now);
 
-                rate= String.valueOf(100f/Float.parseFloat(rate));
-
-                HashMap<String,String> map =new  HashMap<String,String>();
-                map.put("title",name);
-                map.put("detail",rate);
-
-                Date now= Calendar.getInstance().getTime();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-                String datestr = sd.format(now);
-                map.put("date",datestr);
-                Listitems.add(map); //添加对象
+        if(datestr.equals(logdate)){
+            Log.i("aaa","时间相等！！不需要从网上更新");
+            RateManager manager=new RateManager(this);
+            for(RateItem i:manager.listAll()){
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("title", i.getCurName());
+                map.put("detail", i.getCurRate());
+                map.put("date", datestr);
+                Listitems.add(map);
             }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        }
+        else {
+            Log.i("aaa","时间不等 需要从网上更新");
+            String url = "http://www.usd-cny.com/bankofchina.htm";
+            Document doc = null;
+            try {
+                List<RateItem> db=new ArrayList<RateItem>();
+                doc = Jsoup.connect(url).get();
+                Elements tables = doc.getElementsByTag("table");
+                Element ts = tables.get(0);
+                Elements td = ts.getElementsByTag("td");
+
+                for (int i = 0; i < td.size(); i += 6) {
+                    Element td1 = td.get(i);
+                    Element td2 = td.get(i + 5);
+                    String name = td1.text();
+                    String rate = td2.text();
+
+                    rate = String.valueOf(100f / Float.parseFloat(rate));
+
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("title", name);
+                    map.put("detail", rate);
+
+                    // Date now= Calendar.getInstance().getTime();
+                    //@SuppressLint("SimpleDateFormat") SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
+                    //String datestr = sd.format(now);
+                    map.put("date", datestr);
+                    Listitems.add(map); //添加对象
+                    db.add(new RateItem(name,rate));
+                }
+                RateManager manager = new RateManager(this);
+                manager.deleteAll();
+                manager.addAll(db);
+
+                SharedPreferences data = getSharedPreferences("rate", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor=  data.edit();
+                editor.putString("update",datestr);
+                editor.apply();
+                Log.i("aaa","更新日期结束");
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
         Message msg= handler.obtainMessage(2);
         msg.obj=Listitems;

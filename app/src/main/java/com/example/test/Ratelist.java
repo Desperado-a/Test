@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
+//这个activity没啥用！！！！！！！！！
 public class Ratelist extends ListActivity implements Runnable{
     static Handler handler;
     private String logdate="";

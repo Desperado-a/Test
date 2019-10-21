@@ -75,13 +75,13 @@ public class Exchange extends AppCompatActivity implements Runnable{
                    Log.i(TAG,"zhu xian cheng" + dollar_rate);
 
 
-                   //保存汇率及更新日期
+                   //保存汇率
                    SharedPreferences share = getSharedPreferences("rate", Activity.MODE_PRIVATE);
                    SharedPreferences.Editor editor=  share.edit();
                    editor.putFloat("dollar_rate",dollar_rate);
                    editor.putFloat("euro_rate",euro_rate);
                    editor.putFloat("won_rate",won_rate);
-                   editor.putString("update",datestr);
+                  // editor.putString("update",datestr);
                    editor.apply();
 
                }
@@ -157,12 +157,10 @@ public class Exchange extends AppCompatActivity implements Runnable{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.menu_set){
-         // openConfig();
+          openConfig();
             Log.i(TAG,"onOptionsItemSelected" );
-           Intent to_rate = new Intent(this,Ratelist.class);  //简单布局
-            startActivity(to_rate);
-
-
+           //Intent to_rate = new Intent(this,Ratelist.class);  //简单布局
+           // startActivity(to_rate);
         }
         return super.onOptionsItemSelected(item);
     }
