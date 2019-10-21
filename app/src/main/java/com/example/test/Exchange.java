@@ -18,21 +18,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 
 public class Exchange extends AppCompatActivity implements Runnable{
@@ -136,7 +132,7 @@ public class Exchange extends AppCompatActivity implements Runnable{
     }
 
     public void  openlist(View v){
-       // Intent to_rate = new Intent(this,Ratelist.class);  //简单布局
+       //Intent to_rate = new Intent(this,Ratelist.class);  //简单布局
         Intent to_rate = new Intent(this,MyList.class);  //自定义
         startActivity(to_rate);
     }
@@ -161,7 +157,12 @@ public class Exchange extends AppCompatActivity implements Runnable{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.menu_set){
-            openConfig();
+         // openConfig();
+            Log.i(TAG,"onOptionsItemSelected" );
+           Intent to_rate = new Intent(this,Ratelist.class);  //简单布局
+            startActivity(to_rate);
+
+
         }
         return super.onOptionsItemSelected(item);
     }
